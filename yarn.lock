@@ -3219,6 +3219,10 @@ hosted-git-info@^2.1.4, hosted-git-info@^2.1.5, hosted-git-info@~2.1.5:
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.1.5.tgz#0ba81d90da2e25ab34a332e6ec77936e1598118b"
 
+howler@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/howler/-/howler-2.0.1.tgz#9c0f431395a54b2cd447636129dee158eddc683f"
+
 html-comment-regex@^1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/html-comment-regex/-/html-comment-regex-1.1.1.tgz#668b93776eaae55ebde8f3ad464b307a4963625e"
@@ -7081,6 +7085,10 @@ vue-html-loader@^1.2.2:
     html-minifier "^2.1.5"
     loader-utils "^0.2.15"
     object-assign "^4.1.0"
+
+vue-i18n@^4.7.3:
+  version "4.7.3"
+  resolved "https://registry.yarnpkg.com/vue-i18n/-/vue-i18n-4.7.3.tgz#c5a643c7e728e8a5f8b34ed61a1ca8d940308476"
 
 vue-loader@^9.5.1:
   version "9.9.5"

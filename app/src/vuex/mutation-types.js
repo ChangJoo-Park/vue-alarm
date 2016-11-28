@@ -7,4 +7,6 @@ export const ADD_ALARM = 'ADD_ALARM'
 export const REMOVE_ALARM = 'REMOVE_ALARM'
 export const UPDATE_ALARM = 'UPDATE_ALARM'
 export const ON_OFF_ALARM = 'ON_OFF_ALARM'
-
+// Alarm Player
+export const PLAY_ALARM = 'PLAY_ALARM'
+export const STOP_ALARM = 'STOP_ALARM'

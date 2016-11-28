@@ -8,14 +8,6 @@ function sortAlarmDate (date) {
   return date
 }
 
-export const decrementMain = ({ commit }) => {
-  commit(types.DECREMENT_MAIN_COUNTER)
-}
-
-export const incrementMain = ({ commit }) => {
-  commit(types.INCREMENT_MAIN_COUNTER)
-}
-
 // For Alarms
 export const fetchAlarms = ({ commit }) => {
   API.fetchAlarms().then((alarms) => {
@@ -56,4 +48,18 @@ export const deleteAlarm = ({ commit }, deletedAlarm) => {
   API.deleteAlarm(deletedAlarm).then(() => {
     commit(types.DELETE_ALARM, deletedAlarm)
   })
+}
+
+// For Play Alarm
+
+export const playAlarm = ({ commit }, alarmFile) => {
+  console.log('[ACTION] PLAY Alarm')
+  let audio = new Audio('./alarm.mp3')
+  audio.play()
+  commit(types.PLAY_ALARM, alarmFile)
+}
+
+export const stopAlarm = ({ commit }) => {
+  console.log('[ACTION] STOP Alarm')
+  commit(types.STOP_ALARM)
 }
