@@ -2,6 +2,18 @@
   div
     AppHeader(v-bind:nowDate="currentDate", v-bind:nowTime="currentTime")
     router-view
+    //- Dialog Alarm
+    el-dialog(
+      title="알람!",
+      v-model="alarmDialogVisible",
+      size="full",
+      v-on:open="alarmDialogOpen"
+      v-on:close="alarmDialogClose"
+    )
+      span(v-if="currentAlarm.message") {{currentAlarm.message}}
+      span(v-else) 알람이 울리고 있습니다. 알람을 끄려면 아래 버튼을 눌러주세요
+      span(slot="footer")
+        el-button.alarm--dialog--button(@click.native="alarmDialogVisible = false" type="danger", size="large") 알람 종료
 </template>
 
 <script>
@@ -27,17 +39,33 @@
       return {
         now: '',
         nowInterval: '',
-        states: {
-          IDLE: 0,
-          ALARMING: 1,
-          OFF_BY_USER: 2
-        }
+        currentAlarm: '',
+        alarmDialogVisible: false
       }
     },
     watch: {
       currentTime: function () {
-        // for (let alarm of this.onAlarms) {
-        // }
+        console.log('hi')
+        if (!this.onAlarms && this.onAlarms.length === 0) {
+          return
+        }
+
+        // Check Time
+        let currentHour = this.now.hour()
+        let currentMinutes = this.now.minute()
+        for (let alarm of this.onAlarms) {
+          // now
+          let target = alarm.time.split(':')
+          if (currentHour === parseInt(target[0], 10) &&
+              currentMinutes === parseInt(target[1], 10)) {
+            this.alarmDialogVisible = true
+            this.currentAlarm = alarm
+            return
+          } else {
+            console.log(`is not same, ${target[0]}  ${target[1]}`)
+          }
+          // current
+        }
       }
     },
     computed: {
@@ -53,6 +81,25 @@
         const time = moment(this.now)
         const targetTime = time.isValid() ? time : moment()
         return targetTime.format('A h:mm')
+      }
+    },
+    methods: {
+      alarmDialogOpen () {
+        if (!this.currentAlarm) {
+          return
+        }
+        // Setting에서 알람 파일 읽어옴
+        console.log('alarm : ', this.currentAlarm)
+        // TODO: Alarm Target을 열어야됨
+        console.log('Turn on alarming')
+      },
+      alarmDialogClose () {
+        if (!this.currentAlarm) {
+          return
+        }
+        // 알람 파일 종료
+        this.currentAlarm = ''
+        console.log('Turn Off alarming')
       }
     }
   }
@@ -78,5 +125,8 @@
   .time-select-item  {
     width: 100% !important;
   }
+}
+.el-dialog__footer {
+  text-align: center !important;
 }
 </style>
