@@ -1,6 +1,7 @@
 <template lang="pug">
   div
     AppHeader(v-bind:nowDate="currentDate", v-bind:nowTime="currentTime")
+    SettingButton
     router-view
     //- Dialog Alarm
     el-dialog(
@@ -20,6 +21,7 @@
   import store from 'src/vuex/store'
   import { mapGetters } from 'vuex'
   import AppHeader from './components/Shared/Header'
+  import SettingButton from './components/Shared/SettingButton'
   import moment from 'moment'
 
   export default {
@@ -33,7 +35,8 @@
       }, 1000)
     },
     components: {
-      AppHeader
+      AppHeader,
+      SettingButton
     },
     data: function () {
       return {
@@ -128,5 +131,8 @@
 }
 .el-dialog__footer {
   text-align: center !important;
+}
+.form--actions {
+  text-align: right;
 }
 </style>
