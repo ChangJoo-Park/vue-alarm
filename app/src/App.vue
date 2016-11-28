@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    AppHeader(v-bind:now="currentDateTime")
+    AppHeader(v-bind:nowDate="currentDate", v-bind:nowTime="currentTime")
     router-view
 </template>
 
@@ -26,20 +26,33 @@
     data: function () {
       return {
         now: '',
-        nowInterval: ''
+        nowInterval: '',
+        states: {
+          IDLE: 0,
+          ALARMING: 1,
+          OFF_BY_USER: 2
+        }
+      }
+    },
+    watch: {
+      currentTime: function () {
+        // for (let alarm of this.onAlarms) {
+        // }
       }
     },
     computed: {
       ...mapGetters({
         onAlarms: 'onAlarms'
       }),
-      currentDateTime () {
+      currentDate () {
+        const date = moment(this.now)
+        const targetDate = date.isValid() ? date : moment()
+        return targetDate.format('YYYY MMMM DD일 ddd요일')
+      },
+      currentTime () {
         const time = moment(this.now)
         const targetTime = time.isValid() ? time : moment()
-        return {
-          date: targetTime.format('YYYY MMMM DD일 ddd요일'),
-          time: targetTime.format('A h:mm')
-        }
+        return targetTime.format('A h:mm')
       }
     }
   }

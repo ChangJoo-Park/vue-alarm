@@ -1,13 +1,13 @@
 <template lang="pug">
   div.header
-    h2.header--date {{now.date}}
-    h3.header--time {{now.time}}
+    h2.header--date {{nowDate}}
+    h3.header--time {{nowTime}}
     el-button.setting--button(type="info", icon="setting", size="mini", @click="showSetting")
 </template>
 
 <script>
 export default {
-  props: ['now'],
+  props: ['nowDate', 'nowTime'],
   methods: {
     showSetting: function () {
       this.$router.push({name: 'setting-show'})
