@@ -13,5 +13,10 @@ export default [
     path: '/alarms/:alarm_id',
     name: 'alarm-show',
     component: require('components/AlarmShow')
+  },
+  {
+    path: '/settings',
+    name: 'setting-show',
+    component: require('components/SettingShow')
   }
 ]

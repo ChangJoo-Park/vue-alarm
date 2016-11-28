@@ -2,12 +2,17 @@
   div.header
     h2.header--date {{now.date}}
     h3.header--time {{now.time}}
-    el-button.setting--button(type="info", icon="setting", size="mini", @click="")
+    el-button.setting--button(type="info", icon="setting", size="mini", @click="showSetting")
 </template>
 
 <script>
 export default {
-  props: ['now']
+  props: ['now'],
+  methods: {
+    showSetting: function () {
+      this.$router.push({name: 'setting-show'})
+    }
+  }
 }
 </script>
 
