@@ -1,5 +1,5 @@
 <template lang="pug">
-  el-button.setting--button(type="info", icon="setting", size="mini", @click="showSetting")
+  el-button.setting--button(type="default", icon="setting", size="mini", @click="showSetting")
 </template>
 
 <script>

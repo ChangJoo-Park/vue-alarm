@@ -77,10 +77,10 @@ export default {
 
 .alarm--card--message {
   margin: 0;
-  border-top: 1px solid #8492A6;
+  border-top: 1px solid #BFBFBF;
   padding: 0;
   padding-top: 1em;
-  color: #8492A6;
+  color: #BFBFBF;
 
 }
 </style>
