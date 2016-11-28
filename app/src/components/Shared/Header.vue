@@ -2,7 +2,7 @@
   div.header
     h2.header--date {{now.date}}
     h3.header--time {{now.time}}
-    el-button.setting--button(icon="setting", size="mini", @click="")
+    el-button.setting--button(type="info", icon="setting", size="mini", @click="")
 </template>
 
 <script>
