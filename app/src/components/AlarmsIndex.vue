@@ -1,20 +1,34 @@
 <template lang="pug">
   div
-    AlarmCard.alarm--card(
-      v-for="alarm in alarms",
-      v-bind:alarm="alarm"
+    transition-group(
+      name="alarm-list-transition"
+      enter-active-class="animated bounceInDown"
+      leave-active-class="animated bounceOutDown"
     )
+      AlarmCard.alarm--card(
+        v-for="alarm in alarms",
+        v-bind:alarm="alarm"
+        v-bind:key="alarm"
+      )
+    transition(
+      name="custom-classes-transition"
+      enter-active-class="animated fadeIn"
+      leave-active-class="animated fadeOut"
+    )
+      NoAlarms(v-if='alarms.length === 0')
     el-button.alarm--new--button(type="primary", icon="plus", @click="newAlarm")
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import AlarmCard from './Shared/AlarmCard'
+import NoAlarms from './Shared/NoAlarms'
 
 export default {
   props: [],
   components: {
-    AlarmCard
+    AlarmCard,
+    NoAlarms
   },
   created () {
     this.$store.dispatch('fetchAlarms')
