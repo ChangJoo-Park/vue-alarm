@@ -10,16 +10,11 @@
         el-col(:span=24)
           p.alarm--card--message(v-if="alarm.message") {{alarm.message}}
     div
-      //- el-dialog(title="삭제", v-model="deleteDialogVisible")
-      //-   span 삭제하시겠습니까?
-      //-   span(slot="footer")
-      //-     el-button(@click.native="deleteDialogVisible = false") 아니오
-      //-     el-button(type="danger", @click.native="deleteAlarm") 삭제
       el-row.footer(type="flex", justify="space-between", align="middle")
         el-col(:span=14)
           span.alarm--card--date {{alarmDate}}
         el-col.alarm--card-buttons(:span=10)
-          el-button(:plain="true", type="info", icon="edit" size="small", @click="editAlarm")
+          el-button(:plain="true", type="info", icon="edit" size="small", @click.native="editAlarm")
           el-button(:plain="true", type="danger", icon="delete2", size="small", @click.native="deleteAlarm")
 </template>
 
@@ -43,11 +38,9 @@ export default {
   },
   methods: {
     switchChanged: function (isOn) {
-      console.log('[Switch]', isOn)
       this.$store.dispatch('onOffAlarm', {alarm: this.alarm, isOn: isOn})
     },
     editAlarm: function () {
-      console.log(this.alarm.alarmId)
       this.$router.push({name: 'alarm-show', params: {alarm_id: this.alarm.alarmId}})
     },
     deleteAlarm: function () {

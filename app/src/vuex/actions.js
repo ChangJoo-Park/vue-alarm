@@ -7,6 +7,7 @@ function sortAlarmDate (date) {
   }
   return date
 }
+
 export const decrementMain = ({ commit }) => {
   commit(types.DECREMENT_MAIN_COUNTER)
 }
@@ -21,28 +22,28 @@ export const fetchAlarms = ({ commit }) => {
     commit(types.FETCH_ALARMS, alarms)
   })
 }
+
 export const fetchAlarm = ({ commit }, alarmId) => {
   return API.fetchAlarm(alarmId)
 }
+
 export const addAlarm = ({ commit }, newAlarm) => {
-  console.log('[Action] : action add Alarm')
   if (!newAlarm.isOnce) {
     newAlarm.date = sortAlarmDate(newAlarm.date)
   }
 
   API.addAlarm(newAlarm).then((alarm) => {
-    console.log(alarm)
     commit(types.ADD_ALARM, alarm)
   })
 }
+
 export const onOffAlarm = ({ commit }, updatedAlarm) => {
-  console.log('onOffAlarm', updatedAlarm)
   API.onOffAlarm(updatedAlarm.alarm, updatedAlarm.isOn).then((response) => {
     commit(types.ON_OFF_ALARM, {alarm: updatedAlarm.alarm, isOn: updatedAlarm.isOn})
   })
 }
+
 export const updateAlarm = ({ commit }, updatedAlarm) => {
-  console.log('[Action] : action update Alarm')
   if (!updatedAlarm.isOnce) {
     updatedAlarm.date = sortAlarmDate(updatedAlarm.date)
   }
@@ -52,7 +53,6 @@ export const updateAlarm = ({ commit }, updatedAlarm) => {
 }
 
 export const deleteAlarm = ({ commit }, deletedAlarm) => {
-  console.log('[Action] : action delete Alarm')
   API.deleteAlarm(deletedAlarm).then(() => {
     commit(types.DELETE_ALARM, deletedAlarm)
   })
