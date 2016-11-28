@@ -19,9 +19,10 @@ el-form(:ref="alarmForm", :model="formAlarm", label-position="top")
       el-checkbox(label=6) 토
   el-form-item(label="한번만 알림")
     el-checkbox(v-model="alarmAtOnce", v-on:change="checkAlarmAtOnce") 알람 요일을 선택하지 않으면 한번만 울립니다.
-  el-button(type="default", @click.native="$router.go(-1)") 닫기
-  el-button(v-if="isNew", type="primary", @click="$emit('submitButtonFunction', formAlarm)", :disabled="saveAvailable") {{submitButtonName}}
-  el-button(v-else, type="success", @click="$emit('submitButtonFunction', formAlarm)", :disabled="saveAvailable") {{submitButtonName}}
+  div.form--actions
+    el-button(type="default", @click.native="$router.go(-1)") 닫기
+    el-button(v-if="isNew == true", type="primary", @click="$emit('submitButtonFunction', formAlarm)", :disabled="saveAvailable") {{submitButtonName}}
+    el-button(v-else, type="success", @click="$emit('submitButtonFunction', formAlarm)", :disabled="saveAvailable") {{submitButtonName}}
 </template>
 
 <script>
@@ -54,9 +55,6 @@ export default {
         message: '',
         date: [],
         isOn: false
-      },
-      isNewForm: function () {
-        return this.isNew
       }
     }
   },
