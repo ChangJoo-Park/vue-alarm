@@ -11,9 +11,6 @@
 import AlarmForm from './Shared/AlarmForm'
 
 export default {
-  created () {
-    console.log(this.$route.params.alarm_id)
-  },
   components: {
     AlarmForm
   },
@@ -24,7 +21,6 @@ export default {
   },
   methods: {
     updateAlarm: function (alarm) {
-      console.log('[UPDATE CALL] ', alarm)
       this.$store.dispatch('updateAlarm', alarm).then(() => {
         this.$message({
           message: '성공적으로 수정하였습니다.',

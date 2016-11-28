@@ -36,7 +36,6 @@ export default {
   components: {},
   created () {
     if (this.isNew === false) {
-      console.log('edit')
       // this.formAlarm = JSON.parse(JSON.stringify(this.alarm))
       const id = this.$route.params.alarm_id
       this.$store.dispatch('fetchAlarm', id).then((alarm) => {
