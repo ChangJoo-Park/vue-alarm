@@ -6,6 +6,7 @@
 
 <script>
   import store from 'src/vuex/store'
+  import { mapGetters } from 'vuex'
   import AppHeader from './components/Shared/Header'
   import moment from 'moment'
 
@@ -29,6 +30,9 @@
       }
     },
     computed: {
+      ...mapGetters({
+        onAlarms: 'onAlarms'
+      }),
       currentDateTime () {
         const time = moment(this.now)
         const targetTime = time.isValid() ? time : moment()

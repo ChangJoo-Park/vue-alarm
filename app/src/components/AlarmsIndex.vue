@@ -26,8 +26,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      alarms: 'alarms',
-      onAlarms: 'onAlarms'
+      alarms: 'alarms'
     })
   }
 }
