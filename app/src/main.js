@@ -6,6 +6,8 @@ import ElementUI from 'element-ui'
 import lang from 'element-ui/lib/locale/lang/ko'
 import locale from 'element-ui/lib/locale'
 import 'element-ui/lib/theme-default/index.css'
+import 'animate.css'
+import i18n from './locale'
 
 locale.use(lang)
 
@@ -25,6 +27,7 @@ const router = new Router({
 
 /* eslint-disable no-new */
 new Vue({
+  i18n,
   router,
   ...App
 }).$mount('#app')

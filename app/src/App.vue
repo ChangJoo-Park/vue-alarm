@@ -12,13 +12,14 @@
       v-on:close="alarmDialogClose"
     )
       span(v-if="currentAlarm.message") {{currentAlarm.message}}
-      span(v-else) 알람이 울리고 있습니다. 알람을 끄려면 아래 버튼을 눌러주세요
+      span(v-else) {{ $t("dialog.delete.noMessage") }}
       span(slot="footer")
         el-button.alarm--dialog--button(@click.native="alarmDialogVisible = false" type="danger", size="large") 알람 종료
 </template>
 
 <script>
   import store from 'src/vuex/store'
+  // import { Howl } from 'howler'
   import { mapGetters } from 'vuex'
   import AppHeader from './components/Shared/Header'
   import SettingButton from './components/Shared/SettingButton'
@@ -48,7 +49,6 @@
     },
     watch: {
       currentTime: function () {
-        console.log('hi')
         if (!this.onAlarms && this.onAlarms.length === 0) {
           return
         }
@@ -87,6 +87,9 @@
       }
     },
     methods: {
+      play: function () {
+        // this.$store.dispatch('playAlarm')
+      },
       alarmDialogOpen () {
         if (!this.currentAlarm) {
           return
@@ -130,7 +133,7 @@
 
 .selector--timer {
   width: 100%;
-  text-align: center;
+  // text-align: center;
   .time-select-item  {
     width: 100% !important;
   }

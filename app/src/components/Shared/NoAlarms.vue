@@ -1,18 +1,11 @@
 <template lang="pug">
   div.no--alarms
     img.no--alarms--image(src="../../assets/images/NoAlarmImage.svg")
-    p.no--alarms--text 알람이 하나도 없습니다
+    p.no--alarms--text {{ $t("message.noAlarm") }}
 </template>
 
 <script>
 export default {
-  props: [],
-  components: {},
-  data () {
-    return {}
-  },
-  methods: {},
-  computed: {}
 }
 </script>
 
