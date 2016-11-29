@@ -4,7 +4,7 @@
       el-row(type="flex", justify="space-between", align="middle")
         el-col(:span=18)
           h3.alarm--card--time {{alarm.time}}
-        el-col.alarm--card-switch(:span=6)
+        el-col.alarm--card--switch(:span=6)
           el-switch(v-model="isTimerOn", on-text="", off-text="", v-on:change="switchChanged")
       el-row(type="flex", justify="space-between", align="middle")
         el-col(:span=24)
@@ -13,7 +13,7 @@
       el-row.footer(type="flex", justify="space-between", align="middle")
         el-col(:span=14)
           span.alarm--card--date {{alarmDate}}
-        el-col.alarm--card-buttons(:span=10)
+        el-col.alarm--card--buttons(:span=10)
           el-button(:plain="true", type="info", icon="edit" size="small", @click.native="editAlarm")
           el-button(:plain="true", type="danger", icon="delete2", size="small", @click.native="deleteAlarm")
 </template>
@@ -71,7 +71,7 @@ export default {
 
 }
 
-.alarm--card-switch, .alarm--card-buttons {
+.alarm--card--switch, .alarm--card--buttons {
   text-align: right;
 }
 
