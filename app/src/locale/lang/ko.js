@@ -9,7 +9,14 @@ export default {
   },
   form: {
     labels: {
-      alarmSound: '알람 소리'
+      alarmSound: '알람 소리',
+      sun: '일',
+      mon: '월',
+      tue: '화',
+      wed: '수',
+      thu: '목',
+      fri: '금',
+      sat: '토'
     },
     buttons: {
       closeButton: '닫기',

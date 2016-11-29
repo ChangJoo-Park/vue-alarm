@@ -4,19 +4,19 @@ el-form(:ref="alarmForm", :model="formAlarm", label-position="top")
     el-time-select.selector--timer(
       v-model="formAlarm.time"
       placeholder="00:00",
-      :picker-options="{ start: '00:00', step: '00:05', end: '24:00' }"
+      :picker-options="{ start: '00:00', step: '00:01', end: '24:00' }"
     )
   el-form-item(label="알람 메시지")
     el-input(placeholder="", v-model="formAlarm.message")
   el-form-item(label="알람 요일")
     el-checkbox-group(v-model="formAlarm.date")
-      el-checkbox(label=0) 일
-      el-checkbox(label=1) 월
-      el-checkbox(label=2) 화
-      el-checkbox(label=3) 수
-      el-checkbox(label=4) 목
-      el-checkbox(label=5) 금
-      el-checkbox(label=6) 토
+      el-checkbox(label=0) {{ $t("form.labels.sun") }}
+      el-checkbox(label=1) {{ $t("form.labels.mon")}}
+      el-checkbox(label=2) {{ $t("form.labels.tue")}}
+      el-checkbox(label=3) {{ $t("form.labels.wed")}}
+      el-checkbox(label=4) {{ $t("form.labels.thu")}}
+      el-checkbox(label=5) {{ $t("form.labels.fri")}}
+      el-checkbox(label=6) {{ $t("form.labels.sat")}}
   el-form-item(label="한번만 알림")
     el-checkbox(v-model="alarmAtOnce", v-on:change="checkAlarmAtOnce") 알람 요일을 선택하지 않으면 한번만 울립니다.
   div.form--actions
@@ -37,7 +37,6 @@ export default {
   components: {},
   created () {
     if (this.isNew === false) {
-      // this.formAlarm = JSON.parse(JSON.stringify(this.alarm))
       const id = this.$route.params.alarm_id
       this.$store.dispatch('fetchAlarm', id).then((alarm) => {
         if (alarm.length !== 0) {
@@ -54,7 +53,7 @@ export default {
         isOnce: false,
         message: '',
         date: [],
-        isOn: false
+        isOn: true
       }
     }
   },
