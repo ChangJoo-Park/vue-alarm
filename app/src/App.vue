@@ -5,16 +5,16 @@
     router-view
     //- Dialog Alarm
     el-dialog(
-      title="알람!",
+      :title="$t('alarmDialog.title')",
       v-model="alarmDialogVisible",
       size="full",
       v-on:open="alarmDialogOpen"
       v-on:close="alarmDialogClose"
     )
       span(v-if="currentAlarm.message") {{currentAlarm.message}}
-      span(v-else) {{ $t("dialog.delete.noMessage") }}
+      span(v-else) {{ $t('alarmDialog.noMessage') }}
       span(slot="footer")
-        el-button.alarm--dialog--button(@click.native="alarmDialogVisible = false" type="danger", size="large") 알람 종료
+        el-button.alarm--dialog--button(@click.native="alarmDialogVisible = false" type="danger", size="large") {{ $t('alarmDialog.alarmOff') }}
 </template>
 
 <script>
@@ -29,7 +29,6 @@
   export default {
     store,
     created: function () {
-      moment.locale('ko-kr')
       this.now = moment()
       this.nowInterval = window.setInterval(() => {
         this.now = moment()
@@ -89,12 +88,12 @@
       currentDate () {
         const date = moment(this.now)
         const targetDate = date.isValid() ? date : moment()
-        return targetDate.format('YYYY MMMM DD일 ddd요일')
+        return targetDate.format('LL')
       },
       currentTime () {
         const time = moment(this.now)
         const targetTime = time.isValid() ? time : moment()
-        return targetTime.format('A h:mm')
+        return targetTime.format('LT')
       }
     },
     methods: {

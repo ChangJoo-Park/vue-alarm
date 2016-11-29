@@ -1,25 +1,25 @@
 <template lang="pug">
 el-form(:ref="alarmForm", :model="formAlarm", label-position="top")
-  el-form-item(label="알람 시각")
+  el-form-item(:label="$t('form.labels.alarmTime')")
     el-time-select.selector--timer(
       v-model="formAlarm.time"
       placeholder="00:00",
       :picker-options="{ start: '00:00', step: '00:05', end: '24:00' }"
     )
-  el-form-item(label="알람 메시지")
+  el-form-item(:label="$t('form.labels.alarmSound')")
     el-input(placeholder="", v-model="formAlarm.message")
-  el-form-item(label="알람 요일")
+  el-form-item(:label="$t('form.labels.alarmDay')")
     el-checkbox-group(v-model="formAlarm.date")
-      el-checkbox(label=0) {{ $t("form.labels.sun") }}
-      el-checkbox(label=1) {{ $t("form.labels.mon")}}
-      el-checkbox(label=2) {{ $t("form.labels.tue")}}
-      el-checkbox(label=3) {{ $t("form.labels.wed")}}
-      el-checkbox(label=4) {{ $t("form.labels.thu")}}
-      el-checkbox(label=5) {{ $t("form.labels.fri")}}
-      el-checkbox(label=6) {{ $t("form.labels.sat")}}
-  el-form-item(label="한번만 알림")
+      el-checkbox(label=0) {{ $t("days.sun") }}
+      el-checkbox(label=1) {{ $t("days.mon")}}
+      el-checkbox(label=2) {{ $t("days.tue")}}
+      el-checkbox(label=3) {{ $t("days.wed")}}
+      el-checkbox(label=4) {{ $t("days.thu")}}
+      el-checkbox(label=5) {{ $t("days.fri")}}
+      el-checkbox(label=6) {{ $t("days.sat")}}
+  el-form-item(:label="$t('form.labels.alarmAtOnce')")
     el-checkbox(v-model="alarmAtOnce", v-on:change="checkAlarmAtOnce") {{ $t("form.labels.noDay")}}
-  el-form-item(label="알람과 동시에 실행")
+  el-form-item(:label="$t('form.labels.alarmWithAction')")
     el-button.action--button(@click="addAction", icon="plus")
     transition(
       name="action-list-transition"
@@ -36,15 +36,15 @@ el-form(:ref="alarmForm", :model="formAlarm", label-position="top")
             el-row.action--row(:gutter=10, v-for="action in formAlarm.actions", v-bind:key="action")
               el-col(:span=10)
                 el-select(v-model="action.type")
-                  el-option(v-for="item in actions", :label="item.label", :value="item.value")
+                  el-option(v-for="item in actions", :label="$t(item.label)", :value="item.value")
               el-col(:span=10)
-                el-button.block--button(@click="openFileDialog(action)", v-if="action.type == 1") 선택하기
+                el-button.block--button(@click="openFileDialog(action)", v-if="action.type == 1") {{ $t("form.labels.actions.select")}}
                 div.selected--file--name(v-if="action.type == 1") {{selectedFileName(action.target)}}
                 el-input(v-model="action.target", v-if="action.type == 2")
               el-col(:span=4)
                 el-button(@click="removeAction(action)", type="danger", icon="minus")
   div.form--actions
-    el-button(type="default", @click.native="$router.go(-1)") 닫기
+    el-button(type="default", @click.native="$router.go(-1)") {{ $t('form.buttons.closeButton') }}
     el-button(v-if="isNew == true", type="primary", @click="$emit('submitButtonFunction', formAlarm)", :disabled="saveAvailable") {{submitButtonName}}
     el-button(v-else, type="success", @click="$emit('submitButtonFunction', formAlarm)", :disabled="saveAvailable") {{submitButtonName}}
 </template>
@@ -84,11 +84,11 @@ export default {
       },
       actions: [
         {
-          label: '파일 열기',
+          label: 'form.labels.actions.openFile',
           value: 1
         },
         {
-          label: 'URL 열기',
+          label: 'form.labels.actions.openURL',
           value: 2
         }
       ]

@@ -2,7 +2,7 @@
   div
     AlarmForm(
       v-bind:isNew="true",
-      v-bind:submitButtonName="`완료`",
+      v-bind:submitButtonName="$t('form.buttons.doneButton')",
       v-on:submitButtonFunction="saveAlarm"
     )
 </template>
@@ -17,10 +17,11 @@ export default {
   methods: {
     saveAlarm: function (alarm) {
       this.$store.dispatch('addAlarm', alarm).then(() => {
+        const message = this.$t('message.createSuccess')
         this.$message({
           showClose: true,
-          duration: 2000,
-          message: '성공적으로 추가하였습니다.'
+          duration: 1500,
+          message: message
         })
         this.$router.go(-1)
       })

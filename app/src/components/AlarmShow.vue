@@ -2,7 +2,7 @@
   div
     AlarmForm(
       v-bind:isNew="false",
-      v-bind:submitButtonName="`수정`",
+      v-bind:submitButtonName="$t('form.buttons.updateButton')",
       v-on:submitButtonFunction="updateAlarm"
     )
 </template>
@@ -22,10 +22,11 @@ export default {
   methods: {
     updateAlarm: function (alarm) {
       this.$store.dispatch('updateAlarm', alarm).then(() => {
+        const message = this.$t('message.updateSuccess')
         this.$message({
           showClose: true,
-          message: '성공적으로 수정하였습니다.',
-          duration: 2000,
+          message: message,
+          duration: 1500,
           type: 'success'
         })
         this.$router.go(-1)

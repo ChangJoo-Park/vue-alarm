@@ -19,8 +19,6 @@
 </template>
 
 <script>
-import helper from '../../helpers'
-
 export default {
   props: ['alarm'],
   created: function () {
@@ -44,10 +42,11 @@ export default {
     },
     deleteAlarm: function () {
       this.$store.dispatch('deleteAlarm', this.alarm).then(() => {
+        const message = this.$t('message.deleteSuccess')
         this.$message({
           showClose: true,
-          message: '성공적으로 삭제하였습니다.',
-          duration: 2000,
+          message: message,
+          duration: 1500,
           type: 'success'
         })
       })
@@ -55,11 +54,44 @@ export default {
   },
   computed: {
     alarmDate: function () {
-      let strAlarmDate = '한번만 울림'
+      let strAlarmDate = this.$t('alarmCard.date.atOnce')
       if (this.alarm.isOnce) {
         return strAlarmDate
       }
-      strAlarmDate = helper.parseNumberToDay(this.alarm.date)
+      if (!this.alarm.date && !this.alarm.date.isArray() && this.alarm.date.length === 0) {
+        console.error(`[ParseNumberToDay] ${this.alarm.date} is not valid.`)
+        return ''
+      }
+      // TODO: Helper로 뺴야하는데.. 어떻게 I18n도 같이 적용하지
+      const isOnlyWeekend = this.alarm.date.includes('0') && this.alarm.date.includes('6')
+      if (this.alarm.date.length === 7) {
+        strAlarmDate = this.$t('alarmCard.date.everyday')
+      } else if (this.alarm.date.length === 2 && isOnlyWeekend) {
+        strAlarmDate = this.$t('alarmCard.date.weekend')
+      } else if (this.alarm.date.length === 5 && !isOnlyWeekend) {
+        strAlarmDate = this.$t('alarmCard.date.weekday')
+      } else {
+        strAlarmDate = this.alarm.date.map((number) => {
+          switch (parseInt(number, 10)) {
+            case 0:
+              return this.$t('days.sun')
+            case 1:
+              return this.$t('days.mon')
+            case 2:
+              return this.$t('days.tue')
+            case 3:
+              return this.$t('days.wed')
+            case 4:
+              return this.$t('days.thu')
+            case 5:
+              return this.$t('days.fri')
+            case 6:
+              return this.$t('days.sat')
+            default:
+              return ''
+          }
+        }).join(', ').trim()
+      }
       return strAlarmDate
     }
   }
