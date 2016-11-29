@@ -55,7 +55,9 @@ export default {
   computed: {
     alarmDate: function () {
       let strAlarmDate = this.$t('alarmCard.date.atOnce')
+      console.log(this.alarm.isOnce)
       if (this.alarm.isOnce) {
+        console.log('it is once')
         return strAlarmDate
       }
       if (!this.alarm.date && !this.alarm.date.isArray() && this.alarm.date.length === 0) {
@@ -69,7 +71,7 @@ export default {
       } else if (this.alarm.date.length === 2 && isOnlyWeekend) {
         strAlarmDate = this.$t('alarmCard.date.weekend')
       } else if (this.alarm.date.length === 5 && !isOnlyWeekend) {
-        strAlarmDate = this.$t('alarmCard.date.weekday')
+        strAlarmDate = this.$t('alarmCard.date.workday')
       } else {
         strAlarmDate = this.alarm.date.map((number) => {
           switch (parseInt(number, 10)) {

@@ -125,7 +125,8 @@ export default {
   },
   computed: {
     alarmAtOnce: function () {
-      return this.formAlarm.date && this.formAlarm.date.length === 0
+      this.formAlarm.isOnce = this.formAlarm.date && this.formAlarm.date.length === 0
+      return this.formAlarm.isOnce
     },
     saveAvailable: function () {
       // 저장 가능하면 isAvailable이 true가 되어야 한다.
