@@ -18,7 +18,21 @@ el-form(:ref="alarmForm", :model="formAlarm", label-position="top")
       el-checkbox(label=5) {{ $t("form.labels.fri")}}
       el-checkbox(label=6) {{ $t("form.labels.sat")}}
   el-form-item(label="한번만 알림")
-    el-checkbox(v-model="alarmAtOnce", v-on:change="checkAlarmAtOnce") 알람 요일을 선택하지 않으면 한번만 울립니다.
+    el-checkbox(v-model="alarmAtOnce", v-on:change="checkAlarmAtOnce") {{ $t("form.labels.noDay")}}
+  el-form-item(label="알람과 동시에 실행")
+    el-button.action--button(@click="addAction", icon="plus")
+    el-row(v-if="formAlarm.actions.length > 0")
+      el-col(v-for="action in formAlarm.actions")
+        el-row.action--row(:gutter=10)
+          el-col(:span=10)
+            el-select(v-model="action.type")
+              el-option(v-for="item in actions", :label="item.label", :value="item.value")
+          el-col(:span=10)
+            el-button.block--button(@click="openFileDialog(action)", v-if="action.type == 1") 선택하기
+            div.selected--file--name(v-if="action.type == 1") {{selectedFileName(action.target)}}
+            el-input(v-model="action.target", v-if="action.type == 2")
+          el-col(:span=4)
+            el-button(@click="removeAction(action)", type="danger", icon="minus")
   div.form--actions
     el-button(type="default", @click.native="$router.go(-1)") 닫기
     el-button(v-if="isNew == true", type="primary", @click="$emit('submitButtonFunction', formAlarm)", :disabled="saveAvailable") {{submitButtonName}}
@@ -27,6 +41,8 @@ el-form(:ref="alarmForm", :model="formAlarm", label-position="top")
 
 <script>
 import uuid from 'uuid'
+import { remote } from 'electron'
+import path from 'path'
 
 export default {
   props: {
@@ -50,11 +66,22 @@ export default {
       formAlarm: {
         alarmId: uuid(),
         time: '',
-        isOnce: false,
         message: '',
         date: [],
+        actions: [],
+        isOnce: false,
         isOn: true
-      }
+      },
+      actions: [
+        {
+          label: '파일 열기',
+          value: 1
+        },
+        {
+          label: 'URL 열기',
+          value: 2
+        }
+      ]
     }
   },
   methods: {
@@ -62,6 +89,28 @@ export default {
       if (event.isTrusted) {
         this.formAlarm.date = []
       }
+    },
+    addAction: function () {
+      this.formAlarm.actions.push({
+        type: '',
+        target: ''
+      })
+    },
+    removeAction: function (action) {
+      const index = this.formAlarm.actions.indexOf(action)
+      this.formAlarm.actions.splice(index, 1)
+    },
+    openFileDialog: function (action) {
+      remote.dialog.showOpenDialog((filePath) => {
+        action.target = filePath[0]
+        this.selectedFileName()
+      })
+    },
+    selectedFileName: function (filePath) {
+      if (filePath) {
+        return path.parse(filePath).base
+      }
+      return ''
     }
   },
   computed: {
@@ -87,4 +136,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.action--row, .action--button {
+  margin-bottom: 10px;
+}
 </style>

@@ -2,7 +2,7 @@ import Dexie from 'dexie'
 
 // Declare Database
 let db = new Dexie('AlarmDatabase')
-db.version(1).stores({ alarms: '++id,alarmId,time,date,isOnce,isOn,message' })
+db.version(1).stores({ alarms: '++id,alarmId,time,date,isOnce,isOn,message,actions' })
 
 export default {
   fetchAlarms () {

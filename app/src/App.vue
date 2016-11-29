@@ -24,6 +24,7 @@
   import AppHeader from './components/Shared/Header'
   import SettingButton from './components/Shared/SettingButton'
   import moment from 'moment'
+  import open from 'opn'
 
   export default {
     store,
@@ -114,6 +115,11 @@
         // Setting에서 알람 파일 읽어옴
         this.play()
         // TODO: Alarm Target을 열어야됨
+        if (this.currentAlarm.actions && this.currentAlarm.actions.length > 0) {
+          for (let action of this.currentAlarm.actions) {
+            open(action.target)
+          }
+        }
       },
       alarmDialogClose () {
         if (!this.currentAlarm) {
@@ -162,5 +168,9 @@
 }
 .form--actions {
   text-align: right;
+}
+
+.block--button {
+  width: 100%;
 }
 </style>
