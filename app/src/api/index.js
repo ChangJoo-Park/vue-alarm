@@ -11,6 +11,8 @@ export default {
     })
   },
   fetchAlarm (alarmId) {
+    // FIXME: Dexie에서 특정 칼럼을 가지고 검색하는게 잘 안되는거 같음
+    // https://github.com/dfahlander/Dexie.js/wiki/Best%20Practices
     return db.alarms.toArray().then((alarms) => {
       return alarms.filter(alarm => alarm.alarmId === alarmId)
     })
