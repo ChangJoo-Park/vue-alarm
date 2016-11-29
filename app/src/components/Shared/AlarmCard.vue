@@ -47,8 +47,8 @@ export default {
       this.$store.dispatch('deleteAlarm', this.alarm).then(() => {
         this.$message({
           message: '성공적으로 삭제하였습니다.',
-          type: 'success',
-          duration: 1000
+          duration: 2000,
+          type: 'success'
         })
       })
     }
