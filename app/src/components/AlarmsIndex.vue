@@ -16,7 +16,7 @@
       leave-active-class="animated fadeOut"
     )
       NoAlarms(v-if='alarms.length === 0')
-    el-button.alarm--new--button(type="primary", icon="plus", @click="newAlarm")
+    el-button.alarm--new--button(type="primary", icon="plus", @click.native="newAlarm")
 </template>
 
 <script>
