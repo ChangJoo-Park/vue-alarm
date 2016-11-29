@@ -16,8 +16,10 @@ export default {
       wed: '수',
       thu: '목',
       fri: '금',
-      sat: '토'
+      sat: '토',
+      noDay: '알람 요일을 선택하지 않으면 한번만 울립니다.'
     },
+
     buttons: {
       closeButton: '닫기',
       updateButton: '수정',
