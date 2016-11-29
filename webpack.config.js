@@ -41,6 +41,14 @@ let config = {
         loader: 'vue-loader'
       },
       {
+        test: /\.(mp3|wav)(\?.*)?$/,
+        loader: 'url-loader',
+        query: {
+          limit: 10000,
+          name: 'sounds/[name].[hash:7].[ext]'
+        }
+      },
+      {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         query: {
