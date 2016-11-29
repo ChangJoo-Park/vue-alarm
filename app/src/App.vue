@@ -156,6 +156,10 @@
   -ms-user-select: none;
 }
 
+body, #app {
+  overflow-x: hidden;
+}
+
 .selector--timer {
   width: 100%;
   // text-align: center;

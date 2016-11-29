@@ -21,18 +21,28 @@ el-form(:ref="alarmForm", :model="formAlarm", label-position="top")
     el-checkbox(v-model="alarmAtOnce", v-on:change="checkAlarmAtOnce") {{ $t("form.labels.noDay")}}
   el-form-item(label="알람과 동시에 실행")
     el-button.action--button(@click="addAction", icon="plus")
-    el-row(v-if="formAlarm.actions.length > 0")
-      el-col(v-for="action in formAlarm.actions")
-        el-row.action--row(:gutter=10)
-          el-col(:span=10)
-            el-select(v-model="action.type")
-              el-option(v-for="item in actions", :label="item.label", :value="item.value")
-          el-col(:span=10)
-            el-button.block--button(@click="openFileDialog(action)", v-if="action.type == 1") 선택하기
-            div.selected--file--name(v-if="action.type == 1") {{selectedFileName(action.target)}}
-            el-input(v-model="action.target", v-if="action.type == 2")
-          el-col(:span=4)
-            el-button(@click="removeAction(action)", type="danger", icon="minus")
+    transition(
+      name="action-list-transition"
+      enter-active-class="animated bounceInRight"
+      leave-active-class="animated bounceOutLeft"
+    )
+      el-row(v-if="formAlarm.actions.length > 0")
+        el-col(:span=24)
+          transition-group(
+            name="action-item-transition"
+            enter-active-class="animated bounceInRight"
+            leave-active-class="animated bounceOutLeft"
+          )
+            el-row.action--row(:gutter=10, v-for="action in formAlarm.actions", v-bind:key="action")
+              el-col(:span=10)
+                el-select(v-model="action.type")
+                  el-option(v-for="item in actions", :label="item.label", :value="item.value")
+              el-col(:span=10)
+                el-button.block--button(@click="openFileDialog(action)", v-if="action.type == 1") 선택하기
+                div.selected--file--name(v-if="action.type == 1") {{selectedFileName(action.target)}}
+                el-input(v-model="action.target", v-if="action.type == 2")
+              el-col(:span=4)
+                el-button(@click="removeAction(action)", type="danger", icon="minus")
   div.form--actions
     el-button(type="default", @click.native="$router.go(-1)") 닫기
     el-button(v-if="isNew == true", type="primary", @click="$emit('submitButtonFunction', formAlarm)", :disabled="saveAvailable") {{submitButtonName}}

@@ -2,16 +2,16 @@
   div
     transition-group(
       name="alarm-list-transition"
-      enter-active-class="animated bounceInDown"
-      leave-active-class="animated bounceOutDown"
+      enter-active-class="animated bounceInRight"
+      leave-active-class="animated bounceOutLeft"
     )
       AlarmCard.alarm--card(
         v-for="alarm in alarms",
         v-bind:alarm="alarm"
-        v-bind:key="alarm"
+        v-bind:key="alarm.alarmId"
       )
     transition(
-      name="custom-classes-transition"
+      name="no-alarms-transition"
       enter-active-class="animated fadeIn"
       leave-active-class="animated fadeOut"
     )
