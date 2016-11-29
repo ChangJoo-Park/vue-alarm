@@ -11,16 +11,11 @@
 import AlarmForm from './Shared/AlarmForm'
 
 export default {
-  props: [],
   components: {
     AlarmForm
   },
-  data () {
-    return {}
-  },
   methods: {
     saveAlarm: function (alarm) {
-      console.log(alarm)
       this.$store.dispatch('addAlarm', alarm).then(() => {
         this.$message({
           showClose: true,
@@ -30,8 +25,7 @@ export default {
         this.$router.go(-1)
       })
     }
-  },
-  computed: {}
+  }
 }
 </script>
 

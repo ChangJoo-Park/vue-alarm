@@ -18,10 +18,6 @@
 
 <script>
 export default {
-  created: function () {
-    console.dir(this)
-  },
-  components: {},
   data () {
     return {
       settingForm: '',
@@ -54,10 +50,8 @@ export default {
       this.isAlarmPreviewing = !this.isAlarmPreviewing
       if (this.isAlarmPreviewing === true) {
         console.log('true')
-        this.$emit('playAudio')
       } else {
         console.log('false')
-        this.$emit('stopAudio')
       }
     }
   }

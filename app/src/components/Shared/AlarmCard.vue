@@ -6,7 +6,7 @@
           h3.alarm--card--time {{alarm.time}}
         el-col.alarm--card--switch(:span=6)
           el-switch(v-model="isTimerOn", on-text="", off-text="", v-on:change="switchChanged")
-      el-row(type="flex", justify="space-between", align="middle")
+      el-row
         el-col(:span=24)
           p.alarm--card--message(v-if="alarm.message") {{alarm.message}}
     div
@@ -23,7 +23,6 @@ import helper from '../../helpers'
 
 export default {
   props: ['alarm'],
-  components: {},
   created: function () {
     this.isTimerOn = this.alarm.isOn
   },
@@ -46,6 +45,7 @@ export default {
     deleteAlarm: function () {
       this.$store.dispatch('deleteAlarm', this.alarm).then(() => {
         this.$message({
+          showClose: true,
           message: '성공적으로 삭제하였습니다.',
           duration: 2000,
           type: 'success'

@@ -4,7 +4,7 @@ el-form(:ref="alarmForm", :model="formAlarm", label-position="top")
     el-time-select.selector--timer(
       v-model="formAlarm.time"
       placeholder="00:00",
-      :picker-options="{ start: '00:00', step: '00:01', end: '24:00' }"
+      :picker-options="{ start: '00:00', step: '00:05', end: '24:00' }"
     )
   el-form-item(label="알람 메시지")
     el-input(placeholder="", v-model="formAlarm.message")
@@ -125,16 +125,7 @@ export default {
   },
   computed: {
     alarmAtOnce: function () {
-      if (this.formAlarm.date && this.formAlarm.date.length === 0) {
-        this.formAlarm.isOnce = true
-      } else {
-        this.formAlarm.isOnce = false
-      }
-
-      return this.formAlarm.isOnce
-    },
-    submitButtonType: function () {
-      return this.submitButtonClass
+      return this.formAlarm.date && this.formAlarm.date.length === 0
     },
     saveAvailable: function () {
       // 저장 가능하면 isAvailable이 true가 되어야 한다.

@@ -23,16 +23,13 @@ export default {
     updateAlarm: function (alarm) {
       this.$store.dispatch('updateAlarm', alarm).then(() => {
         this.$message({
+          showClose: true,
           message: '성공적으로 수정하였습니다.',
           duration: 2000,
           type: 'success'
         })
         this.$router.go(-1)
       })
-    }
-  },
-  computed: {
-    currentAlarm: function () {
     }
   }
 }

@@ -25,7 +25,6 @@ import AlarmCard from './Shared/AlarmCard'
 import NoAlarms from './Shared/NoAlarms'
 
 export default {
-  props: [],
   components: {
     AlarmCard,
     NoAlarms
