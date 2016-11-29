@@ -19,7 +19,7 @@
 
 <script>
   import store from 'src/vuex/store'
-  // import { Howl } from 'howler'
+  import { Howl } from 'howler'
   import { mapGetters } from 'vuex'
   import AppHeader from './components/Shared/Header'
   import SettingButton from './components/Shared/SettingButton'
@@ -42,6 +42,7 @@
     data: function () {
       return {
         now: '',
+        player: '',
         nowInterval: '',
         currentAlarm: '',
         alarmDialogVisible: false
@@ -52,22 +53,31 @@
         if (!this.onAlarms && this.onAlarms.length === 0) {
           return
         }
-
-        // Check Time
-        let currentHour = this.now.hour()
-        let currentMinutes = this.now.minute()
+        // let currentDay = this.now.
+        const currentDay = moment().format('e')
+        const currentHour = this.now.hour()
+        const currentMinutes = this.now.minute()
         for (let alarm of this.onAlarms) {
-          // now
-          let target = alarm.time.split(':')
-          if (currentHour === parseInt(target[0], 10) &&
-              currentMinutes === parseInt(target[1], 10)) {
+          // Check Day
+          const isAvailableDay = alarm.isOnce || alarm.date.includes(currentDay)
+          console.log('is it available day ? ', isAvailableDay, 'is At once ? ', alarm.isOnce)
+          if (!isAvailableDay) {
+            console.log('return because not that day')
+            return
+          }
+          // Check Time
+          let targetTime = alarm.time.split(':').map(time => parseInt(time, 10))
+          if (currentHour !== targetTime[0]) {
+            console.log('return because not that hour')
+            return
+          }
+          if (currentMinutes === targetTime[1]) {
             this.alarmDialogVisible = true
             this.currentAlarm = alarm
             return
           } else {
-            console.log(`is not same, ${target[0]}  ${target[1]}`)
+            console.log('return because not that minute')
           }
-          // current
         }
       }
     },
@@ -88,24 +98,33 @@
     },
     methods: {
       play: function () {
-        // this.$store.dispatch('playAlarm')
+        console.log('play')
+        this.player = new Howl({src: './alarm.mp3'})
+        this.player.play()
+      },
+      stop: function () {
+        if (this.player) {
+          this.player.stop()
+        }
       },
       alarmDialogOpen () {
         if (!this.currentAlarm) {
           return
         }
         // Setting에서 알람 파일 읽어옴
-        console.log('alarm : ', this.currentAlarm)
+        this.play()
         // TODO: Alarm Target을 열어야됨
-        console.log('Turn on alarming')
       },
       alarmDialogClose () {
         if (!this.currentAlarm) {
           return
         }
+        this.stop()
+        if (this.currentAlarm.isOnce) {
+          this.$store.dispatch('deleteAlarm', this.currentAlarm)
+        }
         // 알람 파일 종료
         this.currentAlarm = ''
-        console.log('Turn Off alarming')
       }
     }
   }
