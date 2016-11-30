@@ -55,9 +55,7 @@ export default {
   computed: {
     alarmDate: function () {
       let strAlarmDate = this.$t('alarmCard.date.atOnce')
-      console.log(this.alarm.isOnce)
       if (this.alarm.isOnce) {
-        console.log('it is once')
         return strAlarmDate
       }
       if (!this.alarm.date && !this.alarm.date.isArray() && this.alarm.date.length === 0) {
@@ -101,14 +99,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.alarm--card--time {
-
-}
-
 .alarm--card--switch, .alarm--card--buttons {
   text-align: right;
 }
-
 .alarm--card--message {
   margin: 0;
   border-top: 1px solid #BFBFBF;
