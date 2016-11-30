@@ -55,7 +55,6 @@ export default {
   computed: {
     timerOn: {
       get: function () {
-        console.log('get')
         this.isTimerOn = this.alarm.isOn
         return this.isTimerOn
       }

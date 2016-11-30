@@ -35,16 +35,11 @@
         this.now = moment()
         // Update Tray
       }, 1000)
-      console.log('created')
-      console.log(this.todayAlarms)
       this.trayUpdate()
       ipcRenderer.on('async-reply-tray', (event, updatedAlarm) => {
-        console.log('Reply')
         const targetAlarm = this.todayAlarms.filter((alarm) => alarm.alarmId === updatedAlarm.alarmId)
-        if (targetAlarm.length === 1) {
-          this.$store.dispatch('onOffAlarm', {alarm: targetAlarm[0], isOn: !updatedAlarm.isOn}).then(() => {
-            // this.trayUpdate()
-          })
+        if (targetAlarm.length >= 1) {
+          this.$store.dispatch('onOffAlarm', {alarm: targetAlarm[0], isOn: !updatedAlarm.isOn})
         }
       })
     },
@@ -97,7 +92,6 @@
         // 참고: 실제 Today Alarms 내부가 변경되는 경우에는 업데이트가 일어나지 않는 경우
         // -> deep: true
         handler: function (val, oldVal) {
-          console.log('호출되나??')
           this.trayUpdate()
         },
         deep: true
@@ -173,8 +167,6 @@
         this.alarmDialogVisible = false
       },
       trayUpdate: function () {
-        console.log('trayUpdate')
-        console.log(this.todayAlarms)
         ipcRenderer.send('async-update-tray', this.todayAlarms)
       }
     }

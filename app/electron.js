@@ -62,7 +62,7 @@ function createTrayMenu () {
   const iconPath = path.join(__dirname, './src/assets/images/light-tray-icon.png')
   const highlightIconPath = path.join(__dirname, './src/assets/images/dark-tray-icon.png')
   trayMenu = new Tray(iconPath)
-
+  trayMenu.setPressedImage(highlightIconPath)
   trayMenu.setToolTip('Vue-Alarm :)')
   const defaultContextMenu = Menu.buildFromTemplate([
     {label: 'Vue-Alarm', type: 'normal', click() {
@@ -106,12 +106,17 @@ ipcMain.on('async-update-tray', (event, alarms) => {
   } else {
     menu.push({label: `알람이 없습니다`, type: 'normal'})
   }
+  // TODO: OS별 작동하는지 테스트
+  app.setBadgeCount(alarms.length)
   alarms.forEach((alarm, index) => {
-    // TODO: click 이벤트
-    const isOnOff = alarm.isOn ? '켜짐' : '꺼짐'
-    const menuItem = {label: `[${index + 1}] : ${alarm.time} (${isOnOff})`,type: 'normal', click() {
-      event.sender.send('async-reply-tray', alarm)
-    }}
+    const menuItem = {
+      label: `[${index + 1}] : ${alarm.time}`,
+      type: 'checkbox',
+      checked: alarm.isOn,
+      click() {
+        event.sender.send('async-reply-tray', alarm)
+      }
+    }
     menu.push(menuItem)
   })
   menu.push({label: '', type: 'separator'})
