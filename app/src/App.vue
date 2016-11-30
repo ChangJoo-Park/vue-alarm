@@ -19,6 +19,7 @@
 
 <script>
   import store from 'src/vuex/store'
+  import { ipcRenderer } from 'electron'
   import { Howl } from 'howler'
   import { mapGetters } from 'vuex'
   import AppHeader from './components/Shared/Header'
@@ -26,14 +27,19 @@
   import moment from 'moment'
   import open from 'opn'
 
+  ipcRenderer.on('async-reply', (event, arg) => {
+    console.log(arg) // Pong
+  })
+
   export default {
     store,
     created: function () {
       this.now = moment()
       this.nowInterval = window.setInterval(() => {
         this.now = moment()
-        // Check
+        // Update Tray
       }, 1000)
+      this.trayUpdate()
     },
     components: {
       AppHeader,
@@ -79,11 +85,15 @@
             console.log('return because not that minute')
           }
         }
+      },
+      todayAlarms: function () {
+        this.trayUpdate()
       }
     },
     computed: {
       ...mapGetters({
-        onAlarms: 'onAlarms'
+        onAlarms: 'onAlarms',
+        todayAlarms: 'todayAlarms'
       }),
       currentDate () {
         const date = moment(this.now)
@@ -148,6 +158,11 @@
       notificationClick: function () {
         console.log('notification click')
         this.alarmDialogVisible = false
+      },
+      trayUpdate: function () {
+        // TODO: 데이터 가져와서 규격에 맞춰서 변경해서 넘김
+        const alarms = JSON.parse(JSON.stringify(this.todayAlarms))
+        ipcRenderer.send('async-update-tray', alarms)
       }
     }
   }
