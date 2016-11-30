@@ -1,5 +1,7 @@
 <template lang="pug">
   div
+    button(@click="notificationAction") Button
+    img(src="./assets/images/notification.png")
     AppHeader(v-bind:nowDate="currentDate", v-bind:nowTime="currentTime")
     SettingButton
     router-view
@@ -113,12 +115,14 @@
         }
         // Setting에서 알람 파일 읽어옴
         this.play()
-        // TODO: Alarm Target을 열어야됨
         if (this.currentAlarm.actions && this.currentAlarm.actions.length > 0) {
           for (let action of this.currentAlarm.actions) {
+            // TODO: Action type에 따라 다른 작업을 해야함.
             open(action.target)
           }
         }
+        // 노티피케이션
+        this.notificationAction()
       },
       alarmDialogClose () {
         if (!this.currentAlarm) {
@@ -130,6 +134,22 @@
         }
         // 알람 파일 종료
         this.currentAlarm = ''
+      },
+      notificationAction: function () {
+        if (!this.currentAlarm) {
+          return
+        }
+        let myNotification = new Notification(this.$t('notification.title'), {
+          body: this.currentAlarm.message ? this.currentAlarm.message : this.$t('notification.close'),
+        })
+        setTimeout(function () {
+          myNotification.close()
+        }, 10000)
+        myNotification.onclick = () => this.notificationClick()
+      },
+      notificationClick: function () {
+        console.log('notification click')
+        this.alarmDialogVisible = false
       }
     }
   }

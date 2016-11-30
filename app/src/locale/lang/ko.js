@@ -1,5 +1,9 @@
 export default {
   hello: 'zzz',
+  notification: {
+    title: '알람이 울리고 있습니다!',
+    close: '클릭하시면 알람이 종료됩니다.'
+  },
   days: {
     sun: '일',
     mon: '월',
