@@ -6,7 +6,7 @@ el-form(:ref="alarmForm", :model="formAlarm", label-position="top")
       placeholder="00:00",
       :picker-options="{ start: '00:00', step: '00:05', end: '24:00' }"
     )
-  el-form-item(:label="$t('form.labels.alarmSound')")
+  el-form-item(:label="$t('form.labels.alarmMessage')")
     el-input(placeholder="", v-model="formAlarm.message")
   el-form-item(:label="$t('form.labels.alarmDay')")
     el-checkbox-group(v-model="formAlarm.date")
