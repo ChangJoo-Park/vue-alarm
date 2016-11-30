@@ -5,7 +5,7 @@
         el-col(:span=18)
           h3.alarm--card--time {{alarm.time}}
         el-col.alarm--card--switch(:span=6)
-          el-switch(v-model="isTimerOn", on-text="", off-text="", v-on:change="switchChanged")
+          el-switch(v-model="timerOn", on-text="", off-text="", v-on:change="switchChanged")
       el-row
         el-col(:span=24)
           p.alarm--card--message(v-if="alarm.message") {{alarm.message}}
@@ -53,6 +53,13 @@ export default {
     }
   },
   computed: {
+    timerOn: {
+      get: function () {
+        console.log('get')
+        this.isTimerOn = this.alarm.isOn
+        return this.isTimerOn
+      }
+    },
     alarmDate: function () {
       let strAlarmDate = this.$t('alarmCard.date.atOnce')
       if (this.alarm.isOnce) {

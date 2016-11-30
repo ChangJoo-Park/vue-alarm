@@ -27,10 +27,6 @@
   import moment from 'moment'
   import open from 'opn'
 
-  ipcRenderer.on('async-reply', (event, arg) => {
-    console.log(arg) // Pong
-  })
-
   export default {
     store,
     created: function () {
@@ -39,7 +35,18 @@
         this.now = moment()
         // Update Tray
       }, 1000)
+      console.log('created')
+      console.log(this.todayAlarms)
       this.trayUpdate()
+      ipcRenderer.on('async-reply-tray', (event, updatedAlarm) => {
+        console.log('Reply')
+        const targetAlarm = this.todayAlarms.filter((alarm) => alarm.alarmId === updatedAlarm.alarmId)
+        if (targetAlarm.length === 1) {
+          this.$store.dispatch('onOffAlarm', {alarm: targetAlarm[0], isOn: !updatedAlarm.isOn}).then(() => {
+            // this.trayUpdate()
+          })
+        }
+      })
     },
     components: {
       AppHeader,
@@ -86,8 +93,14 @@
           }
         }
       },
-      todayAlarms: function () {
-        this.trayUpdate()
+      todayAlarms: {
+        // 참고: 실제 Today Alarms 내부가 변경되는 경우에는 업데이트가 일어나지 않는 경우
+        // -> deep: true
+        handler: function (val, oldVal) {
+          console.log('호출되나??')
+          this.trayUpdate()
+        },
+        deep: true
       }
     },
     computed: {
@@ -95,6 +108,7 @@
         onAlarms: 'onAlarms',
         todayAlarms: 'todayAlarms'
       }),
+      // TODO: 리팩토링 해야됨
       currentDate () {
         const date = moment(this.now)
         const targetDate = date.isValid() ? date : moment()
@@ -108,7 +122,6 @@
     },
     methods: {
       play: function () {
-        console.log('play')
         this.player = new Howl({src: './alarm.mp3'})
         this.player.play()
       },
@@ -160,9 +173,9 @@
         this.alarmDialogVisible = false
       },
       trayUpdate: function () {
-        // TODO: 데이터 가져와서 규격에 맞춰서 변경해서 넘김
-        const alarms = JSON.parse(JSON.stringify(this.todayAlarms))
-        ipcRenderer.send('async-update-tray', alarms)
+        console.log('trayUpdate')
+        console.log(this.todayAlarms)
+        ipcRenderer.send('async-update-tray', this.todayAlarms)
       }
     }
   }

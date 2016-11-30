@@ -58,8 +58,11 @@ function createWindow () {
 
 function createTrayMenu () {
   console.log('trayMenu')
-  const iconPath = path.join(__dirname, './src/assets/images/tray-icon.png')
+  // TODO: Check Dark Mode :)
+  const iconPath = path.join(__dirname, './src/assets/images/light-tray-icon.png')
+  const highlightIconPath = path.join(__dirname, './src/assets/images/dark-tray-icon.png')
   trayMenu = new Tray(iconPath)
+
   trayMenu.setToolTip('Vue-Alarm :)')
   const defaultContextMenu = Menu.buildFromTemplate([
     {label: 'Vue-Alarm', type: 'normal', click() {
@@ -94,8 +97,6 @@ app.on('activate', () => {
 // IPC
 // TODO: 문구들을 앱에서 전달받도록 해야함
 ipcMain.on('async-update-tray', (event, alarms) => {
-  console.log('update tray')
-  console.log(alarms)
   const menu = [{label: 'Vue-Alarm', type: 'normal', click() {mainWindow.show()}}]
   menu.push({label: '', type: 'separator'})
   if (alarms && alarms.length > 0) {
@@ -108,12 +109,13 @@ ipcMain.on('async-update-tray', (event, alarms) => {
   alarms.forEach((alarm, index) => {
     // TODO: click 이벤트
     const isOnOff = alarm.isOn ? '켜짐' : '꺼짐'
-    const menuItem = {label: `[${index + 1}] : ${alarm.time} (${isOnOff})`,type: 'normal'}
+    const menuItem = {label: `[${index + 1}] : ${alarm.time} (${isOnOff})`,type: 'normal', click() {
+      event.sender.send('async-reply-tray', alarm)
+    }}
     menu.push(menuItem)
   })
   menu.push({label: '', type: 'separator'})
   menu.push({label: 'Quit', type: 'normal', click() {trayUtil.quitApp()}})
   const contextMenu = Menu.buildFromTemplate(menu)
   trayMenu.setContextMenu(contextMenu)
-  // event.sender.send('async-reply', 'pong')
 })
