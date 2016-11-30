@@ -138,7 +138,7 @@
           return
         }
         let myNotification = new Notification(this.$t('notification.title'), {
-          body: this.currentAlarm.message ? this.currentAlarm.message : this.$t('notification.close'),
+          body: this.currentAlarm.message ? this.currentAlarm.message : this.$t('notification.close')
         })
         setTimeout(function () {
           myNotification.close()
