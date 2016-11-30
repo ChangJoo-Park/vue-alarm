@@ -1,7 +1,5 @@
 <template lang="pug">
   div
-    button(@click="notificationAction") Button
-    img(src="./assets/images/notification.png")
     AppHeader(v-bind:nowDate="currentDate", v-bind:nowTime="currentTime")
     SettingButton
     router-view
