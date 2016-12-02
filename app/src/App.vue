@@ -27,6 +27,11 @@
   import moment from 'moment'
   import open from 'opn'
 
+  function getValidDateTimeWithFormat (date, format) {
+    const targetDate = moment(date).isValid() ? moment(date) : moment()
+    return targetDate.format(format)
+  }
+
   export default {
     store,
     created: function () {
@@ -61,23 +66,23 @@
         if (!this.onAlarms && this.onAlarms.length === 0) {
           return
         }
-        // let currentDay = this.now.
         const currentDay = moment().format('e')
         const currentHour = this.now.hour()
         const currentMinutes = this.now.minute()
         for (let alarm of this.onAlarms) {
           // Check Day
+          console.log(currentDay, alarm.date)
           const isAvailableDay = alarm.isOnce || alarm.date.includes(currentDay)
           console.log('is it available day ? ', isAvailableDay, 'is At once ? ', alarm.isOnce)
           if (!isAvailableDay) {
             console.log('return because not that day')
-            return
+            continue
           }
           // Check Time
           let targetTime = alarm.time.split(':').map(time => parseInt(time, 10))
           if (currentHour !== targetTime[0]) {
             console.log('return because not that hour')
-            return
+            continue
           }
           if (currentMinutes === targetTime[1]) {
             this.alarmDialogVisible = true
@@ -102,16 +107,11 @@
         onAlarms: 'onAlarms',
         todayAlarms: 'todayAlarms'
       }),
-      // TODO: 리팩토링 해야됨
       currentDate () {
-        const date = moment(this.now)
-        const targetDate = date.isValid() ? date : moment()
-        return targetDate.format('LL')
+        return getValidDateTimeWithFormat(this.now, 'LL')
       },
       currentTime () {
-        const time = moment(this.now)
-        const targetTime = time.isValid() ? time : moment()
-        return targetTime.format('LT')
+        return getValidDateTimeWithFormat(this.now, 'LT')
       }
     },
     methods: {
