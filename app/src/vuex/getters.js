@@ -8,15 +8,11 @@ export const todayAlarms = state => state.alarms.all.filter((alarm) => {
   if (!splitAlarm && splitAlarm.length < 2) {
     return false
   }
-  const alarmHour = splitAlarm[0]
-  const alarmMinutes = splitAlarm[1]
   const current = moment()
-  const today = current.format('e')
-  const currentHour = current.hour()
-  const currentMinutes = current.minutes()
-  return alarm.isOn &&
-         (alarm.isOnce || alarm.date.includes(today)) &&
-         (alarmHour >= currentHour && alarmMinutes >= currentMinutes)
+  const alarmTime = moment(alarm.time, 'HH:mm')
+  const alarmToday = alarm.isOnce || alarm.date.includes(current.format('e'))
+  const isAfterTime = alarmTime.isAfter(current)
+  return alarm.isOn && alarmToday && isAfterTime
 }).sort((a, b) => {
   return parseInt(a.time.replace(':', '')) - parseInt(b.time.replace(':', ''))
 })
