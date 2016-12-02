@@ -58,10 +58,17 @@ function createWindow () {
 
 function createTrayMenu () {
   console.log('trayMenu')
-  // TODO: Check Dark Mode :)
-  const iconPath = path.join(__dirname, './src/assets/images/light-tray-icon.png')
-  const highlightIconPath = path.join(__dirname, './src/assets/images/dark-tray-icon.png')
+  // >> Build
+  // const iconPath = path.join(app.getAppPath(), './dist/imgs/light-tray-icon.png')
+  // const highlightIconPath = path.join(app.getAppPath(), './dist/imgs/dark-tray-icon.png')
+  const iconPath = path.join(__dirname, './dist/imgs/light-tray-icon.png')
+  const highlightIconPath = path.join(__dirname, './dist/imgs/dark-tray-icon.png')
+  // >> Dev
+  // const iconPath = path.join(__dirname, 'light-tray-icon.png')
+  // const highlightIconPath = path.join(__dirname, 'dark-tray-icon.png')
+  console.log('Before Tray instance create')
   trayMenu = new Tray(iconPath)
+  console.log('After Tray instance create')
   trayMenu.setPressedImage(highlightIconPath)
   trayMenu.setToolTip('Vue-Alarm :)')
   const defaultContextMenu = Menu.buildFromTemplate([
@@ -101,7 +108,7 @@ ipcMain.on('async-update-tray', (event, alarms) => {
   menu.push({label: '', type: 'separator'})
   if (alarms && alarms.length > 0) {
     const alarmCount = `${alarms.length}개`
-    menu.push({label: `오늘의 알람 ${alarmCount}`, type: 'normal'})
+    menu.push({label: `예정된 알람 ${alarmCount}`, type: 'normal'})
     menu.push({label: '', type: 'separator'})
   } else {
     menu.push({label: `알람이 없습니다`, type: 'normal'})
